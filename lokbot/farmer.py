@@ -732,7 +732,7 @@ class LokFarmer:
     def socf_thread(self, radius, targets, share_to=None):
         """
         websocket connection of the field
-        Only scans for objects and logs them without starting marches
+        Scans for objects and automatically starts marches to gather resources
         :return:
         """
         while self.api.last_requested_at + 16 > time.time():
@@ -840,6 +840,22 @@ Status - {status}{occupied_info}"""
 
                     # Log to main objects file
                     objects_logger.info(log_message)
+
+                    # Try to send a march if it's a resource and not occupied
+                    if obj_type == "Resource" and status == "Available":
+                        # Check if we reached march limit
+                        if not self._is_march_limit_exceeded():
+                            # Update march limit and troop queue
+                            self._update_march_limit()
+                            
+                            # Send troops to gather
+                            if self._on_field_objects_gather(each_obj):
+                                march_status = "March started successfully"
+                            else:
+                                march_status = "Failed to start march"
+                            logger.info(f"{march_status} to {obj_type} at {loc}")
+                        else:
+                            logger.info(f"March limit reached, cannot gather {obj_type} at {loc}")
 
                     # Send to Discord if enabled
                     if config.get('discord', {}).get('enabled', False) and config.get('discord', {}).get('webhook_url'):
