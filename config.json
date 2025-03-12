@@ -19,7 +19,7 @@
       },
       {
         "name": "alliance_farmer",
-        "enabled": false,
+        "enabled": true,
         "kwargs": {
           "gift_claim": true,
           "help_all": true,
@@ -35,7 +35,7 @@
       },
       {
         "name": "mail_claim",
-        "enabled": false,
+        "enabled": true,
         "interval": {
           "start": 120,
           "end": 200
@@ -51,7 +51,7 @@
       },
       {
         "name": "use_resource_in_item_list",
-        "enabled": false,
+        "enabled": true,
         "interval": {
           "start": 120,
           "end": 200
@@ -59,7 +59,7 @@
       },
       {
         "name": "vip_chest_claim",
-        "enabled": false,
+        "enabled": true,
         "interval": {
           "start": 120,
           "end": 200
@@ -67,7 +67,7 @@
       },
       {
         "name": "harvester",
-        "enabled": false,
+        "enabled": true,
         "interval": {
           "start": 10,
           "end": 20
@@ -80,7 +80,7 @@
           "targets": [
             {
               "code": 20100105,
-              "level": []
+              "level": [1]
             },
             {
               "code": 20100106,
@@ -104,22 +104,22 @@
     "threads": [
       {
         "name": "free_chest_farmer_thread",
-        "enabled": false
+        "enabled": true
       },
       {
         "name": "quest_monitor_thread",
-        "enabled": false
+        "enabled": true
       },
       {
         "name": "building_farmer_thread",
-        "enabled": false,
+        "enabled": true,
         "kwargs": {
           "speedup": true
         }
       },
       {
         "name": "academy_farmer_thread",
-        "enabled": false,
+        "enabled": true,
         "kwargs": {
           "to_max_level": false,
           "speedup": true
@@ -127,7 +127,7 @@
       },
       {
         "name": "train_troop_thread",
-        "enabled": false,
+        "enabled": true,
         "kwargs": {
           "troop_code": 50100101,
           "speedup": true,
@@ -140,7 +140,7 @@
     "debug": false
   },
   "discord": {
-    "enabled": true,
+    "enabled": false,
     "webhook_url": "https://discord.com/api/webhooks/1347950449629728870/QaIzHHP35zYX-d1RBrNOWozsy-OrkzGkbFB5Xq64-q42aQxEmN1GTS0FUL1LZkGwUWn7",
     "crystal_mine_level1_webhook_url": "https://discord.com/api/webhooks/1348124055672455260/lP0Nq0PelaI4swvcMJ1yiZ17dXvTXjEePB-y1OOJrJjY-ViOkId5ojnZtm051rVSrbhw",
     "level2plus_webhook_url": "https://discord.com/api/webhooks/1348280223157714977/Z-NID1RnGb9LpVn8JBRV8p7JgrPzJfgepAUpG07vJQKT-0lGtNdOf-nCffaOzXkHSuOK",
