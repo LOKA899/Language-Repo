@@ -1,0 +1,105 @@
+2025-03-12 03:58:26.655 | DEBUG    | lokbot.client:post:120 - {"url": "https://lok-api-live.leagueofkingdoms.com/api/auth/connect", "data": {"deviceInfo": {"build": "global"}}, "elapsed": 0.910401, "res": {"result": false, "err": {}}}
+Traceback (most recent call last):
+  File "/home/runner/workspace/lokbot/client.py", line 183, in auth_connect
+    res = self.post('https://lok-api-live.leagueofkingdoms.com/api/auth/connect', json_data)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/tenacity/__init__.py", line 289, in wrapped_f
+    return self(f, *args, **kw)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/tenacity/__init__.py", line 379, in __call__
+    do = self.iter(retry_state=retry_state)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/tenacity/__init__.py", line 314, in iter
+    return fut.result()
+           ^^^^^^^^^^^^
+  File "/nix/store/nb21sc3npfc8gvazwnrjxpvb5d48jysx-python3-3.12.7/lib/python3.12/concurrent/futures/_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/nix/store/nb21sc3npfc8gvazwnrjxpvb5d48jysx-python3-3.12.7/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/tenacity/__init__.py", line 382, in __call__
+    result = fn(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/tenacity/__init__.py", line 289, in wrapped_f
+    return self(f, *args, **kw)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/tenacity/__init__.py", line 379, in __call__
+    do = self.iter(retry_state=retry_state)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/tenacity/__init__.py", line 314, in iter
+    return fut.result()
+           ^^^^^^^^^^^^
+  File "/nix/store/nb21sc3npfc8gvazwnrjxpvb5d48jysx-python3-3.12.7/lib/python3.12/concurrent/futures/_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/nix/store/nb21sc3npfc8gvazwnrjxpvb5d48jysx-python3-3.12.7/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/tenacity/__init__.py", line 382, in __call__
+    result = fn(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/tenacity/__init__.py", line 289, in wrapped_f
+    return self(f, *args, **kw)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/tenacity/__init__.py", line 379, in __call__
+    do = self.iter(retry_state=retry_state)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/tenacity/__init__.py", line 314, in iter
+    return fut.result()
+           ^^^^^^^^^^^^
+  File "/nix/store/nb21sc3npfc8gvazwnrjxpvb5d48jysx-python3-3.12.7/lib/python3.12/concurrent/futures/_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/nix/store/nb21sc3npfc8gvazwnrjxpvb5d48jysx-python3-3.12.7/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/tenacity/__init__.py", line 382, in __call__
+    result = fn(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/tenacity/__init__.py", line 289, in wrapped_f
+    return self(f, *args, **kw)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/tenacity/__init__.py", line 379, in __call__
+    do = self.iter(retry_state=retry_state)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/tenacity/__init__.py", line 314, in iter
+    return fut.result()
+           ^^^^^^^^^^^^
+  File "/nix/store/nb21sc3npfc8gvazwnrjxpvb5d48jysx-python3-3.12.7/lib/python3.12/concurrent/futures/_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/nix/store/nb21sc3npfc8gvazwnrjxpvb5d48jysx-python3-3.12.7/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/tenacity/__init__.py", line 382, in __call__
+    result = fn(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/ratelimit/decorators.py", line 80, in wrapper
+    return func(*args, **kargs)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/lokbot/client.py", line 152, in post
+    raise OtherException(code)
+lokbot.exceptions.OtherException: None
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/home/runner/workspace/lokbot/__main__.py", line 7, in <module>
+    fire.Fire(main)
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/fire/core.py", line 141, in Fire
+    component_trace = _Fire(component, args, parsed_flag_args, context, name)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/fire/core.py", line 475, in _Fire
+    component, remaining_args = _CallAndUpdateTrace(
+                                ^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/fire/core.py", line 691, in _CallAndUpdateTrace
+    component = fn(*varargs, **kwargs)
+                ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/lokbot/app.py", line 70, in main
+    farmer = LokFarmer(token, captcha_solver_config)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/lokbot/farmer.py", line 78, in __init__
+    auth_res = self.api.auth_connect({"deviceInfo": {"build": "global"}})
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/lokbot/client.py", line 187, in auth_connect
+    raise NoAuthException()
+lokbot.exceptions.NoAuthException
