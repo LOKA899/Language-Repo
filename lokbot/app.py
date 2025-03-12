@@ -55,47 +55,70 @@ def main(token=None, captcha_solver_config=None):
         if not token:
             logger.error("No AUTH_TOKEN found in environment variables. Please add it to Secrets.")
             return
-
-    _id = lokbot.util.decode_jwt(token).get('_id')
-    token_file = project_root.joinpath(f'data/{_id}.token')
-    if token_file.exists():
-        token_from_file = token_file.read_text()
-        logger.info(f'Using token: {token_from_file} from file: {token_file}')
+    
+    # Make sure the data directory exists
+    import os
+    if not os.path.exists(project_root.joinpath('data')):
+        os.makedirs(project_root.joinpath('data'))
+    
+    farmer = None
+    
+    # Try to extract the ID from the token, but handle invalid tokens gracefully
+    try:
+        _id = lokbot.util.decode_jwt(token).get('_id')
+        token_file = project_root.joinpath(f'data/{_id}.token')
+        
+        # If we have a saved token, try that first
+        if token_file.exists():
+            token_from_file = token_file.read_text()
+            logger.info(f'Using saved token from file: {token_file}')
+            try:
+                farmer = LokFarmer(token_from_file, captcha_solver_config)
+            except NoAuthException:
+                logger.warning('Saved token is invalid, will try with provided token')
+    except Exception as e:
+        logger.warning(f'Error processing token: {e}')
+    
+    # If we got here, either there was no saved token or it was invalid
+    if farmer is None:
         try:
-            farmer = LokFarmer(token_from_file, captcha_solver_config)
-        except NoAuthException:
-            logger.info('Token is invalid, using token from environment')
+            logger.info('Attempting to authenticate with provided token')
             farmer = LokFarmer(token, captcha_solver_config)
+        except NoAuthException:
+            logger.error('Authentication failed. Please obtain a fresh token from the game.')
+            return
+
+    # If we have a valid farmer instance, proceed with the bot
+    if farmer:
+        threading.Thread(target=farmer.sock_thread, daemon=True).start()
+        threading.Thread(target=farmer.socc_thread, daemon=True).start()
+
+        farmer.keepalive_request()
+
+        for job in config.get('main').get('jobs'):
+            if not job.get('enabled'):
+                continue
+
+            name = job.get('name')
+
+            schedule.every(
+                job.get('interval').get('start')
+            ).to(
+                job.get('interval').get('end')
+            ).minutes.do(run_threaded, name, functools.partial(getattr(farmer, name), **job.get('kwargs', {})))
+
+        schedule.run_all()
+
+        # schedule.every(15).to(20).minutes.do(farmer.keepalive_request)
+
+        for thread in config.get('main').get('threads'):
+            if not thread.get('enabled'):
+                continue
+
+            threading.Thread(target=getattr(farmer, thread.get('name')), kwargs=thread.get('kwargs'), daemon=True).start()
+
+        while True:
+            schedule.run_pending()
+            time.sleep(1)
     else:
-        farmer = LokFarmer(token, captcha_solver_config)
-
-    threading.Thread(target=farmer.sock_thread, daemon=True).start()
-    threading.Thread(target=farmer.socc_thread, daemon=True).start()
-
-    farmer.keepalive_request()
-
-    for job in config.get('main').get('jobs'):
-        if not job.get('enabled'):
-            continue
-
-        name = job.get('name')
-
-        schedule.every(
-            job.get('interval').get('start')
-        ).to(
-            job.get('interval').get('end')
-        ).minutes.do(run_threaded, name, functools.partial(getattr(farmer, name), **job.get('kwargs', {})))
-
-    schedule.run_all()
-
-    # schedule.every(15).to(20).minutes.do(farmer.keepalive_request)
-
-    for thread in config.get('main').get('threads'):
-        if not thread.get('enabled'):
-            continue
-
-        threading.Thread(target=getattr(farmer, thread.get('name')), kwargs=thread.get('kwargs'), daemon=True).start()
-
-    while True:
-        schedule.run_pending()
-        time.sleep(1)
+        logger.error("Failed to initialize the farming bot")

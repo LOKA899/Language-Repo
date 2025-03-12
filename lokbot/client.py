@@ -180,14 +180,36 @@ class LokBotApi:
 
     def auth_connect(self, json_data=None):
         try:
+            # Use a more detailed device info for better authentication chances
+            if json_data is None or 'deviceInfo' not in json_data or json_data['deviceInfo'] == {"build": "global"}:
+                json_data = {
+                    "deviceInfo": {
+                        "build": "global",
+                        "OS": "Windows 10",
+                        "country": "USA",
+                        "language": "English",
+                        "bundle": "",
+                        "version": "1.1694.152.229",
+                        "platform": "web",
+                        "pushId": "",
+                        "manufacturer": "Mozilla/5.0",
+                        "model": "Windows NT 10.0; Win64; x64; rv:109.0"
+                    }
+                }
+            
             res = self.post('https://lok-api-live.leagueofkingdoms.com/api/auth/connect', json_data)
         except OtherException:
             # {"result":false,"err":{}} when no auth
-            project_root.joinpath(f'data/{self._id}.token').unlink(missing_ok=True)
+            if hasattr(self, '_id') and self._id:
+                project_root.joinpath(f'data/{self._id}.token').unlink(missing_ok=True)
+            logger.error("Authentication failed - token rejected by the server")
+            raise NoAuthException()
+
+        if not res or 'token' not in res:
+            logger.error(f"Invalid response from auth/connect: {res}")
             raise NoAuthException()
 
         self.opener.headers['x-access-token'] = res['token']
-
         return res
 
     def auth_set_device_info(self, device_info):
